@@ -141,7 +141,7 @@ const actions = {
 
 		fs.writeFileSync('__instance.c', t);
 
-		exec(`gcc -W -Wall -Wextra -Werror -o student __instance.c ${options.compile}`, function(err, stdout, stderr) {
+		exec(`gcc -W -Wall -Wextra -o student __instance.c ${options.compile || ''}`, function(err, stdout, stderr) {
 			if (err) console.log(err);
 			return next();
 		});

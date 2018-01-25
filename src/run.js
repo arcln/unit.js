@@ -116,7 +116,7 @@ const actions = {
   cmd: function(options) {
     exec(options.literal, function(err, stdout, stderr) {
       if (typeof options.callback === 'function') {
-        options.callback(err, stdout, stderr);
+        options.callback(err, stdout, stderr, customCallback);
       }
       return next();
     });

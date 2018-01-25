@@ -39,15 +39,15 @@ function getDetails(detail, test, student, reference) {
   msg += student.stderr || '';
   msg += `====================================\n\n`;
 
-  if (reference || test.stdout) {
+  if (reference.stdout || typeof test.stdout === 'string') {
     msg += `========= EXCPECTED STDOUT =========\n`;
-    msg += reference ? reference.stdout || '\n' : test.stdout || '';
+    msg += reference ? reference.stdout || '' : test.stdout || '';
     msg += `====================================\n\n`;
   }
 
-  if (reference || test.stderr) {
+  if (reference.stderr || typeof test.stderr === 'string') {
     msg += `========= EXCPECTED STDERR =========\n`;
-    msg += reference ? reference.stderr || '\n' : test.stderr || '';
+    msg += reference ? reference.stderr || '' : test.stderr || '';
     msg += `====================================\n\n`;
   }
 

@@ -31,6 +31,7 @@ function getDetails(detail, test, student, reference) {
     msg += '\n';
   }
 
+  msg += '@~#';
   msg += `============== STDOUT ==============\n`;
   msg += student.stdout || '';
   msg += `====================================\n\n`;
@@ -39,13 +40,13 @@ function getDetails(detail, test, student, reference) {
   msg += student.stderr || '';
   msg += `====================================\n\n`;
 
-  if (reference.stdout || typeof test.stdout === 'string') {
+  if ((reference && reference.stdout) || typeof test.stdout === 'string') {
     msg += `========= EXCPECTED STDOUT =========\n`;
     msg += reference ? reference.stdout || '' : test.stdout || '';
     msg += `====================================\n\n`;
   }
 
-  if (reference.stderr || typeof test.stderr === 'string') {
+  if ((reference && reference.stderr) || typeof test.stderr === 'string') {
     msg += `========= EXCPECTED STDERR =========\n`;
     msg += reference ? reference.stderr || '' : test.stderr || '';
     msg += `====================================\n\n`;

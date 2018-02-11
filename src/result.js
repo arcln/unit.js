@@ -21,7 +21,7 @@ function getDetails(detail, test, student, reference) {
 	}
 
 	msg += `Failure reason: ${failureReason}\n`;
-	msg += `Executed shell command: ${test.finalCommand}\n`;
+	msg += `Executed shell command: ${test.finalCommand.replace(/\n/g, "\\n")}\n`;
 	msg += `Process exit signal: ${student.crash ? student.crash : 'None (process exited normally)'}\n`;
 
 	msg += `Process exit status: ${student.returnValue !== null ? student.returnValue : '-'}`;

@@ -50,11 +50,15 @@ function test(options) {
           crash: refErr ? refErr.signal : null
         };
 
-        if (student.stdout !== ref.stdout) {
+        if (!options.ignore) {
+        	options.ignore = {};
+				}
+
+        if (student.stdout !== ref.stdout && !options.ignore["stdout"]) {
           result.failure('stdout', options, student, ref, __results);
-        } else if (student.stderr !== ref.stderr) {
+        } else if (student.stderr !== ref.stderr && !options.ignore["stderr"]) {
           result.failure('stderr', options, student, ref, __results);
-        } else if (student.returnValue !== ref.returnValue) {
+        } else if (student.returnValue !== ref.returnValue && !options.ignore["returnValue"]) {
           result.failure('returnValue', options, student, ref, __results);
         } else {
           result.success(options, student, ref, __results);

@@ -26,7 +26,7 @@ function getDetails(detail, test, student, reference) {
 
 	msg += `Process exit status: ${student.returnValue !== null ? student.returnValue : '-'}`;
 	if ((reference && typeof reference.returnValue === 'number') || typeof test.returnValue === 'number') {
-		const convert = val => val === 1 ? 84 : val;
+		const convert = val => val !== 0 ? 84 : 0;
 		msg += ` (expected ${reference ? convert(reference.returnValue) : test.returnValue})\n\n`;
 	} else {
 		msg += '\n';
@@ -42,13 +42,13 @@ function getDetails(detail, test, student, reference) {
 	msg += `====================================\n\n`;
 
 	if ((reference && reference.stdout) || typeof test.stdout === 'string') {
-		msg += `========= EXCPECTED STDOUT =========\n`;
+		msg += `========= REFERENCE STDOUT =========\n`;
 		msg += reference ? reference.stdout || '' : test.stdout || '';
 		msg += `====================================\n\n`;
 	}
 
 	if ((reference && reference.stderr) || typeof test.stderr === 'string') {
-		msg += `========= EXCPECTED STDERR =========\n`;
+		msg += `========= REFERENCE STDERR =========\n`;
 		msg += reference ? reference.stderr || '' : test.stderr || '';
 		msg += `====================================\n\n`;
 	}
@@ -66,19 +66,23 @@ function success(test, student, reference, __results) {
 }
 
 function failure(detail, test, student, reference, __results) {
-	const testcase = __results.ele('testcase', {
-		name: test.name.split('.')[2],
-		classname: test.name.split('.')[0] + '.' + test.name.split('.')[1],
-	});
+	try {
+		const testcase = __results.ele('testcase', {
+			name: test.name.split('.')[2],
+			classname: test.name.split('.')[0] + '.' + test.name.split('.')[1],
+		});
 
-	if (detail === 'crash' || detail === 'timeout') {
-		testcase.ele('error', {
-			message: 'Test crashed'
-		}, getDetails(detail, test, student, reference));
-	} else {
-		testcase.ele('failure', {
-			message: 'Test failed'
-		}, getDetails(detail, test, student, reference));
+		if (detail === 'crash' || detail === 'timeout') {
+			testcase.ele('error', {
+				message: 'Test crashed'
+			}, getDetails(detail, test, student, reference));
+		} else {
+			testcase.ele('failure', {
+				message: 'Test failed'
+			}, getDetails(detail, test, student, reference));
+		}
+	} catch (err) {
+		console.log(err);
 	}
 
 	console.log(test.name + ' > FAILURE (' + detail + ')');

@@ -54,6 +54,10 @@ function test(options) {
         	options.ignore = {};
 				}
 
+				if (ref.returnValue !== 0) {
+        	ref.returnValue = 84;
+				}
+
         if (student.stdout !== ref.stdout && !options.ignore["stdout"]) {
           result.failure('stdout', options, student, ref, __results);
         } else if (student.stderr !== ref.stderr && !options.ignore["stderr"]) {
